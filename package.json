@@ -1,6 +1,6 @@
 {
   "name": "krawlet-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript/JavaScript client library for the Krawlet Minecraft economy tracking API",
   "type": "module",
   "main": "dist/index.cjs",
