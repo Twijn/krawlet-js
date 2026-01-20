@@ -2,6 +2,7 @@
   "name": "krawlet-js",
   "version": "1.0.0",
   "description": "TypeScript/JavaScript client library for the Krawlet Minecraft economy tracking API",
+  "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -19,7 +20,7 @@
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vverage",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "prepublishOnly": "pnpm run build"
