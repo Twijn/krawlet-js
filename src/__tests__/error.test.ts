@@ -3,13 +3,9 @@ import { KrawletError } from '../error';
 
 describe('KrawletError', () => {
   it('should create an error with all properties', () => {
-    const error = new KrawletError(
-      'Shop not found',
-      'SHOP_NOT_FOUND',
-      404,
-      'req-123',
-      { shopId: '999' },
-    );
+    const error = new KrawletError('Shop not found', 'SHOP_NOT_FOUND', 404, 'req-123', {
+      shopId: '999',
+    });
 
     expect(error.message).toBe('Shop not found');
     expect(error.code).toBe('SHOP_NOT_FOUND');
@@ -30,11 +26,7 @@ describe('KrawletError', () => {
   });
 
   it('should identify rate limit errors correctly', () => {
-    const rateLimitError = new KrawletError(
-      'Rate limit exceeded',
-      'RATE_LIMIT_EXCEEDED',
-      429,
-    );
+    const rateLimitError = new KrawletError('Rate limit exceeded', 'RATE_LIMIT_EXCEEDED', 429);
     expect(rateLimitError.isRateLimitError()).toBe(true);
 
     const normalError = new KrawletError('Bad request', 'BAD_REQUEST', 400);

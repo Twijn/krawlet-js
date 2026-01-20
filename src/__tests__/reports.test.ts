@@ -55,9 +55,7 @@ describe('ReportsResource', () => {
     it('should return validation failures with default limit', async () => {
       const mockData: ReportRecords = {
         count: 5,
-        records: [
-          { id: 1, error: 'Invalid shop data', timestamp: '2026-01-20T00:00:00Z' },
-        ],
+        records: [{ id: 1, error: 'Invalid shop data', timestamp: '2026-01-20T00:00:00Z' }],
       };
 
       const mockResponse: ApiResponse<ReportRecords> = {
@@ -122,9 +120,7 @@ describe('ReportsResource', () => {
     it('should return successful posts', async () => {
       const mockData: ReportRecords = {
         count: 50,
-        records: [
-          { id: 1, shopId: 'shop-1', timestamp: '2026-01-20T00:00:00Z' },
-        ],
+        records: [{ id: 1, shopId: 'shop-1', timestamp: '2026-01-20T00:00:00Z' }],
       };
 
       const mockResponse: ApiResponse<ReportRecords> = {
@@ -226,7 +222,12 @@ describe('ReportsResource', () => {
       const mockData: ReportRecords = {
         count: 30,
         records: [
-          { id: 1, itemName: 'minecraft:diamond', changeType: 'added', timestamp: '2026-01-20T00:00:00Z' },
+          {
+            id: 1,
+            itemName: 'minecraft:diamond',
+            changeType: 'added',
+            timestamp: '2026-01-20T00:00:00Z',
+          },
         ],
       };
 

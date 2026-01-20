@@ -102,11 +102,7 @@ export class HttpClient {
         lastError = error as Error;
 
         // Don't retry on client errors (4xx) except rate limits
-        if (
-          error instanceof KrawletError &&
-          error.isClientError() &&
-          !error.isRateLimitError()
-        ) {
+        if (error instanceof KrawletError && error.isClientError() && !error.isRateLimitError()) {
           throw error;
         }
 
@@ -128,7 +124,10 @@ export class HttpClient {
   /**
    * Build the full URL with query parameters
    */
-  private buildUrl(path: string, params?: Record<string, string | number | boolean | undefined>): string {
+  private buildUrl(
+    path: string,
+    params?: Record<string, string | number | boolean | undefined>,
+  ): string {
     const url = new URL(path, this.config.baseUrl);
 
     if (params) {
@@ -145,7 +144,10 @@ export class HttpClient {
   /**
    * Build request headers
    */
-  private buildHeaders(customHeaders?: Record<string, string>, apiKey?: string): Record<string, string> {
+  private buildHeaders(
+    customHeaders?: Record<string, string>,
+    apiKey?: string,
+  ): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       ...this.config.headers,

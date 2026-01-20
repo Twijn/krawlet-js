@@ -1,6 +1,6 @@
 /**
  * Integration tests for the Krawlet client
- * 
+ *
  * Note: These tests are designed to run against a live API or mock server.
  * Set KRAWLET_API_URL and KRAWLET_API_KEY environment variables to test
  * against a real instance.
@@ -48,13 +48,9 @@ describe('Integration Tests', () => {
 
   describe('Error Handling', () => {
     it('should handle KrawletError with all properties', () => {
-      const error = new KrawletError(
-        'Test error',
-        'TEST_ERROR',
-        400,
-        'req-123',
-        { field: 'value' },
-      );
+      const error = new KrawletError('Test error', 'TEST_ERROR', 400, 'req-123', {
+        field: 'value',
+      });
 
       expect(error).toBeInstanceOf(Error);
       expect(error).toBeInstanceOf(KrawletError);
@@ -77,11 +73,7 @@ describe('Integration Tests', () => {
       expect(serverError.isClientError()).toBe(false);
       expect(serverError.isServerError()).toBe(true);
 
-      const rateLimitError = new KrawletError(
-        'Rate Limit',
-        'RATE_LIMIT_EXCEEDED',
-        429,
-      );
+      const rateLimitError = new KrawletError('Rate Limit', 'RATE_LIMIT_EXCEEDED', 429);
       expect(rateLimitError.isRateLimitError()).toBe(true);
     });
   });

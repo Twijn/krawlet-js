@@ -83,7 +83,13 @@ describe('AddressesResource', () => {
       const result = await addresses.getAll();
 
       expect(result).toHaveLength(5);
-      expect(result.map((a) => a.type)).toEqual(['official', 'shop', 'gamble', 'service', 'company']);
+      expect(result.map((a) => a.type)).toEqual([
+        'official',
+        'shop',
+        'gamble',
+        'service',
+        'company',
+      ]);
     });
   });
 });
