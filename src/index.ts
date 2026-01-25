@@ -32,6 +32,12 @@ export type {
   ReportRecords,
   ChangeLogResult,
   ChangeLogOptions,
+  // API key management
+  ApiKeyInfo,
+  ApiKeyUsage,
+  ApiKeyTier,
+  RequestLog,
+  RequestLogsResponse,
   // Enums and type aliases
   PlayerNotifications,
   KnownAddressType,
@@ -48,3 +54,4 @@ export { ItemsResource } from './resources/items';
 export { AddressesResource } from './resources/addresses';
 export { StorageResource } from './resources/storage';
 export { ReportsResource } from './resources/reports';
+export { ApiKeyResource } from './resources/apikey';

@@ -264,6 +264,89 @@ export interface ShopSyncData {
 }
 
 /**
+ * API key tier
+ */
+export type ApiKeyTier = 'free' | 'premium';
+
+/**
+ * API key usage statistics
+ */
+export interface ApiKeyUsage {
+  /** Total requests made with this key */
+  totalRequests: number;
+  /** Requests in the last 24 hours */
+  last24h: number;
+  /** Requests in the last 7 days */
+  last7d: number;
+  /** Requests in the last 30 days */
+  last30d: number;
+  /** Number of blocked requests */
+  blockedRequests: number;
+  /** Average response time in milliseconds */
+  avgResponseTimeMs: number | null;
+  /** Most frequently accessed endpoints */
+  topEndpoints: Array<{ path: string; count: number }>;
+}
+
+/**
+ * API key information
+ */
+export interface ApiKeyInfo {
+  /** API key ID */
+  id: string;
+  /** Key name/label */
+  name: string;
+  /** Contact email */
+  email: string | null;
+  /** API key tier */
+  tier: ApiKeyTier;
+  /** Rate limit (requests per hour) */
+  rateLimit: number;
+  /** Whether the key is active */
+  isActive: boolean;
+  /** Total request count */
+  requestCount: number;
+  /** ISO 8601 datetime of last use */
+  lastUsedAt: string | null;
+  /** ISO 8601 datetime of creation */
+  createdAt: string;
+  /** Usage statistics (only present if requested) */
+  usage?: ApiKeyUsage;
+}
+
+/**
+ * Request log entry
+ */
+export interface RequestLog {
+  /** Unique request identifier */
+  requestId: string;
+  /** ISO 8601 datetime */
+  timestamp: string;
+  /** HTTP method */
+  method: string;
+  /** Request path */
+  path: string;
+  /** Response status code */
+  responseStatus: number | null;
+  /** Response time in milliseconds */
+  responseTimeMs: number | null;
+  /** Whether the request was blocked */
+  wasBlocked: boolean;
+  /** Reason for blocking (if blocked) */
+  blockReason: string | null;
+}
+
+/**
+ * Request logs response
+ */
+export interface RequestLogsResponse {
+  /** Number of logs returned */
+  count: number;
+  /** Array of request logs */
+  logs: RequestLog[];
+}
+
+/**
  * Rate limit information
  */
 export interface RateLimit {

@@ -6,6 +6,7 @@ import { ItemsResource } from './resources/items';
 import { AddressesResource } from './resources/addresses';
 import { StorageResource } from './resources/storage';
 import { ReportsResource } from './resources/reports';
+import { ApiKeyResource } from './resources/apikey';
 import type { RateLimit } from './types';
 
 /**
@@ -61,6 +62,8 @@ export class KrawletClient {
   public readonly storage: StorageResource;
   /** Report and statistics endpoints */
   public readonly reports: ReportsResource;
+  /** API key management endpoints */
+  public readonly apiKey: ApiKeyResource;
 
   /**
    * Create a new Krawlet API client
@@ -87,6 +90,7 @@ export class KrawletClient {
     this.addresses = new AddressesResource(this.httpClient);
     this.storage = new StorageResource(this.httpClient);
     this.reports = new ReportsResource(this.httpClient);
+    this.apiKey = new ApiKeyResource(this.httpClient);
   }
 
   /**
