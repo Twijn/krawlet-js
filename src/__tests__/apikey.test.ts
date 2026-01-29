@@ -1,7 +1,14 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ApiKeyResource } from '../resources/apikey';
 import { HttpClient } from '../http-client';
-import type { ApiResponse, ApiKeyInfo, ApiKeyUsage, RequestLogsResponse } from '../types';
+import type {
+  ApiResponse,
+  ApiKeyInfo,
+  ApiKeyUsage,
+  RequestLogsResponse,
+  QuickCodeGenerateResponse,
+  QuickCodeRedeemResponse,
+} from '../types';
 
 describe('ApiKeyResource', () => {
   let client: HttpClient;
@@ -259,6 +266,85 @@ describe('ApiKeyResource', () => {
       expect(global.fetch).toHaveBeenCalledWith(
         'https://api.krawlet.cc/v1/apikey/logs?limit=10',
         expect.any(Object),
+      );
+    });
+  });
+
+  describe('generateQuickCode', () => {
+    const mockQuickCodeResponse: QuickCodeGenerateResponse = {
+      quickCode: '003721',
+      expiresAt: '2026-01-28T12:15:00.000Z',
+      expiresIn: '15 minutes',
+      message: 'Use this code to retrieve your full API key. Redeeming will regenerate your key.',
+    };
+
+    it('should generate a quick code', async () => {
+      const mockResponse: ApiResponse<QuickCodeGenerateResponse> = {
+        success: true,
+        data: mockQuickCodeResponse,
+        meta: {
+          timestamp: '2026-01-28T12:00:00Z',
+          elapsed: 25,
+          version: '1.0.0',
+          requestId: 'req-400',
+        },
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockResponse,
+        headers: new Headers(),
+      });
+
+      const result = await apiKey.generateQuickCode();
+
+      expect(result).toEqual(mockQuickCodeResponse);
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://api.krawlet.cc/v1/apikey/quickcode/generate',
+        expect.objectContaining({
+          method: 'POST',
+        }),
+      );
+    });
+  });
+
+  describe('redeemQuickCode', () => {
+    const mockRedeemResponse: QuickCodeRedeemResponse = {
+      message: 'Quick code redeemed successfully',
+      apiKey: 'kraw_abc123def456789xyz',
+      name: "PlayerName's API Key",
+      tier: 'free',
+      rateLimit: 1000,
+      warning: 'Save this API key securely - it will not be shown again!',
+    };
+
+    it('should redeem a quick code', async () => {
+      const mockResponse: ApiResponse<QuickCodeRedeemResponse> = {
+        success: true,
+        data: mockRedeemResponse,
+        meta: {
+          timestamp: '2026-01-28T12:00:00Z',
+          elapsed: 30,
+          version: '1.0.0',
+          requestId: 'req-500',
+        },
+      };
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => mockResponse,
+        headers: new Headers(),
+      });
+
+      const result = await apiKey.redeemQuickCode('003721');
+
+      expect(result).toEqual(mockRedeemResponse);
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://api.krawlet.cc/v1/apikey/quickcode/redeem',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({ code: '003721' }),
+        }),
       );
     });
   });

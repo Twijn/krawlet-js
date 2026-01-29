@@ -38,6 +38,8 @@ export type {
   ApiKeyTier,
   RequestLog,
   RequestLogsResponse,
+  QuickCodeGenerateResponse,
+  QuickCodeRedeemResponse,
   // Enums and type aliases
   PlayerNotifications,
   KnownAddressType,

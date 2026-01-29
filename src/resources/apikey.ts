@@ -1,5 +1,11 @@
 import type { HttpClient } from '../http-client';
-import type { ApiKeyInfo, ApiKeyUsage, RequestLogsResponse } from '../types';
+import type {
+  ApiKeyInfo,
+  ApiKeyUsage,
+  RequestLogsResponse,
+  QuickCodeGenerateResponse,
+  QuickCodeRedeemResponse,
+} from '../types';
 
 /**
  * Options for getting API key info
@@ -124,6 +130,65 @@ export class ApiKeyResource {
     const response = await this.client.request<RequestLogsResponse>('/v1/apikey/logs', {
       params: Object.keys(params).length > 0 ? params : undefined,
     });
+    return response.data;
+  }
+
+  /**
+   * Generate a quick code for retrieving the API key on another device
+   *
+   * @remarks
+   * Quick codes are 6-digit codes that expire in 15 minutes.
+   * Redeeming a quick code will regenerate the API key.
+   *
+   * @returns Quick code information including the code and expiration
+   * @throws {KrawletError} If not authenticated (401)
+   *
+   * @example
+   * ```typescript
+   * const quickCode = await client.apiKey.generateQuickCode();
+   * console.log(`Your quick code is: ${quickCode.quickCode}`);
+   * console.log(`Expires at: ${quickCode.expiresAt}`);
+   * // Share this code to retrieve your API key on another device
+   * ```
+   */
+  async generateQuickCode(): Promise<QuickCodeGenerateResponse> {
+    const response = await this.client.request<QuickCodeGenerateResponse>(
+      '/v1/apikey/quickcode/generate',
+      { method: 'POST' },
+    );
+    return response.data;
+  }
+
+  /**
+   * Redeem a quick code to get a new API key
+   *
+   * @remarks
+   * This endpoint does not require authentication.
+   * Redeeming a quick code will regenerate the API key - save the returned key securely!
+   *
+   * @param code - The 6-digit quick code to redeem
+   * @returns The new API key and related information
+   * @throws {KrawletError} If the code is invalid or expired (400/404)
+   *
+   * @example
+   * ```typescript
+   * // Create a client without an API key for redeeming
+   * const client = new KrawletClient({});
+   *
+   * const result = await client.apiKey.redeemQuickCode('003721');
+   * console.log(`New API key: ${result.apiKey}`);
+   * console.log(`Warning: ${result.warning}`);
+   * // Save this API key securely!
+   * ```
+   */
+  async redeemQuickCode(code: string): Promise<QuickCodeRedeemResponse> {
+    const response = await this.client.request<QuickCodeRedeemResponse>(
+      '/v1/apikey/quickcode/redeem',
+      {
+        method: 'POST',
+        body: { code },
+      },
+    );
     return response.data;
   }
 }

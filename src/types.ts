@@ -347,6 +347,38 @@ export interface RequestLogsResponse {
 }
 
 /**
+ * Response from generating a quick code
+ */
+export interface QuickCodeGenerateResponse {
+  /** 6-digit quick code */
+  quickCode: string;
+  /** ISO 8601 datetime when the code expires */
+  expiresAt: string;
+  /** Human-readable expiration duration */
+  expiresIn: string;
+  /** Informational message */
+  message: string;
+}
+
+/**
+ * Response from redeeming a quick code
+ */
+export interface QuickCodeRedeemResponse {
+  /** Success message */
+  message: string;
+  /** The new API key (save this - it won't be shown again!) */
+  apiKey: string;
+  /** Name/label of the API key */
+  name: string;
+  /** API key tier */
+  tier: ApiKeyTier;
+  /** Rate limit (requests per hour) */
+  rateLimit: number;
+  /** Warning about saving the key securely */
+  warning: string;
+}
+
+/**
  * Rate limit information
  */
 export interface RateLimit {
