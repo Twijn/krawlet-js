@@ -432,6 +432,80 @@ export interface ErrorResponse {
 }
 
 /**
+ * Service connection status values
+ */
+export type ServiceStatus = 'connected' | 'disconnected' | 'connecting' | 'error';
+
+/**
+ * Base service information
+ */
+export interface ServiceInfo {
+  /** Current connection status */
+  status: ServiceStatus;
+  /** Last error message if any */
+  lastError?: string;
+}
+
+/**
+ * Kromer WebSocket service information
+ */
+export interface KromerServiceInfo extends ServiceInfo {
+  /** ISO 8601 datetime of last successful connection */
+  lastConnectedAt?: string;
+  /** Last transaction ID processed */
+  lastTransactionId?: number;
+}
+
+/**
+ * Chatbox service information
+ */
+export interface ChatboxServiceInfo extends ServiceInfo {
+  /** Chatbox owner */
+  owner?: string;
+  /** Number of players in range */
+  playerCount?: number;
+}
+
+/**
+ * Discord service information
+ */
+export interface DiscordServiceInfo extends ServiceInfo {
+  /** Discord bot username */
+  username?: string;
+  /** Number of registered commands */
+  commandCount?: number;
+}
+
+/**
+ * Basic service status for health check
+ */
+export interface HealthServices {
+  kromerWs: ServiceInfo;
+  chatbox: ServiceInfo;
+  discord: ServiceInfo;
+}
+
+/**
+ * Detailed service status for detailed health check
+ */
+export interface HealthServicesDetailed {
+  kromerWs: KromerServiceInfo;
+  chatbox: ChatboxServiceInfo;
+  discord: DiscordServiceInfo;
+}
+
+/**
+ * Health check results
+ */
+export interface HealthChecks {
+  database: boolean;
+  memory: boolean;
+  kromerWs: boolean;
+  chatbox: boolean;
+  discord: boolean;
+}
+
+/**
  * Basic health check response
  */
 export interface HealthResponse {
@@ -440,6 +514,8 @@ export interface HealthResponse {
   uptime: number;
   version: string;
   name: string;
+  /** Service connection statuses */
+  services: HealthServices;
 }
 
 /**
@@ -447,10 +523,7 @@ export interface HealthResponse {
  */
 export interface DetailedHealthResponse {
   status: 'healthy' | 'degraded';
-  checks: {
-    database: boolean;
-    memory: boolean;
-  };
+  checks: HealthChecks;
   details: {
     timestamp: string;
     uptime: number;
@@ -464,6 +537,8 @@ export interface DetailedHealthResponse {
     node: string;
     platform: string;
   };
+  /** Detailed service connection statuses */
+  services: HealthServicesDetailed;
 }
 
 /**

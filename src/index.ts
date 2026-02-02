@@ -26,6 +26,14 @@ export type {
   // Health
   HealthResponse,
   DetailedHealthResponse,
+  ServiceStatus,
+  ServiceInfo,
+  KromerServiceInfo,
+  ChatboxServiceInfo,
+  DiscordServiceInfo,
+  HealthServices,
+  HealthServicesDetailed,
+  HealthChecks,
   // Storage
   StorageData,
   // Reports
@@ -49,7 +57,7 @@ export type {
 export { ErrorCode } from './types';
 
 // Re-export resources for advanced usage
-export { HealthResource } from './resources/health';
+export { HealthResource, type ServiceName } from './resources/health';
 export { PlayersResource } from './resources/players';
 export { ShopsResource } from './resources/shops';
 export { ItemsResource } from './resources/items';
