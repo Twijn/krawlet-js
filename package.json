@@ -23,6 +23,7 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
+    "version": "node -e \"const v = require('./package.json').version; require('fs').writeFileSync('./src/version.ts', '/** Package version */\\nexport const VERSION = \\'' + v + '\\';\\n')\" && git add src/version.ts",
     "prepublishOnly": "pnpm run build"
   },
   "keywords": [
