@@ -16,9 +16,6 @@ export type ServiceName = 'kromerWs' | 'chatbox' | 'discord';
  * Health resource for checking API status
  */
 export class HealthResource {
-  private cachedHealth: HealthResponse | null = null;
-  private cachedDetailed: DetailedHealthResponse | null = null;
-
   constructor(private client: HttpClient) {}
 
   /**
@@ -27,7 +24,6 @@ export class HealthResource {
    */
   async check(): Promise<HealthResponse> {
     const response = await this.client.request<HealthResponse>('/v1/health');
-    this.cachedHealth = response.data;
     return response.data;
   }
 
@@ -37,7 +33,6 @@ export class HealthResource {
    */
   async detailed(): Promise<DetailedHealthResponse> {
     const response = await this.client.request<DetailedHealthResponse>('/v1/health/detailed');
-    this.cachedDetailed = response.data;
     return response.data;
   }
 
