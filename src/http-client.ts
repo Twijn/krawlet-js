@@ -150,6 +150,7 @@ export class HttpClient {
   ): Record<string, string> {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      'User-Agent': 'krawlet-js/1.3.1',
       ...this.config.headers,
       ...customHeaders,
     };

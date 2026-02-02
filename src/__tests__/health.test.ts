@@ -173,7 +173,11 @@ describe('HealthResource', () => {
           platform: 'linux',
         },
         services: {
-          kromerWs: { status: 'connected', lastConnectedAt: '2026-01-19T12:00:00Z', lastTransactionId: 12345 },
+          kromerWs: {
+            status: 'connected',
+            lastConnectedAt: '2026-01-19T12:00:00Z',
+            lastTransactionId: 12345,
+          },
           chatbox: { status: 'connected', owner: 'krawlet', playerCount: 42 },
           discord: { status: 'connected', username: 'Krawlet#1234', commandCount: 15 },
         },

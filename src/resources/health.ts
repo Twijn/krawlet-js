@@ -44,15 +44,21 @@ export class HealthResource {
    */
   async getServiceStatus<T extends ServiceName>(
     service: T,
-    useDetailed?: false
+    useDetailed?: false,
   ): Promise<ServiceInfo>;
   async getServiceStatus<T extends ServiceName>(
     service: T,
-    useDetailed: true
-  ): Promise<T extends 'kromerWs' ? KromerServiceInfo : T extends 'chatbox' ? ChatboxServiceInfo : DiscordServiceInfo>;
+    useDetailed: true,
+  ): Promise<
+    T extends 'kromerWs'
+      ? KromerServiceInfo
+      : T extends 'chatbox'
+        ? ChatboxServiceInfo
+        : DiscordServiceInfo
+  >;
   async getServiceStatus<T extends ServiceName>(
     service: T,
-    useDetailed: boolean = false
+    useDetailed: boolean = false,
   ): Promise<ServiceInfo | KromerServiceInfo | ChatboxServiceInfo | DiscordServiceInfo> {
     if (useDetailed) {
       const health = await this.detailed();
