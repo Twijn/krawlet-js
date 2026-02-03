@@ -38,6 +38,13 @@ export type PlayerNotifications = 'none' | 'self' | 'all';
 export type ItemChangeType = 'added' | 'removed';
 
 /**
+ * Shop source type indicating how the shop was added
+ * - 'modem': Shop was added via direct modem connection (default)
+ * - 'radio_tower': Shop was added via CC Radio Tower (remote/relay)
+ */
+export type ShopSourceType = 'modem' | 'radio_tower';
+
+/**
  * Price information for an item
  */
 export interface Price {
@@ -109,6 +116,8 @@ export interface Shop {
   softwareName: string | null;
   /** Software version */
   softwareVersion: string | null;
+  /** How the shop was added (modem=direct connection, radio_tower=CC Radio Tower) */
+  sourceType: ShopSourceType;
   /** Space-separated coordinates: "123 64 -456" */
   locationCoordinates: string | null;
   /** Location description */
@@ -225,6 +234,8 @@ export interface PriceChangeLog {
  * Data structure for creating/updating shops
  */
 export interface ShopSyncData {
+  /** How the shop was added (defaults to 'modem' if not specified) */
+  sourceType?: ShopSourceType;
   info: {
     name: string;
     description?: string;

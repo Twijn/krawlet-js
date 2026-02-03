@@ -162,6 +162,7 @@ const items = await client.shops.getItems('123');
 
 // Update a shop (requires ShopSync authentication)
 const shopData = {
+  sourceType: 'modem', // Optional: 'modem' (default) or 'radio_tower'
   info: {
     name: 'My Shop',
     description: 'A great shop',
@@ -187,6 +188,22 @@ const shopData = {
 };
 
 await client.shops.update(shopData, 'kraw_shopsync_token');
+```
+
+#### Shop Source Types
+
+The `sourceType` field indicates how a shop was added to the system:
+
+| Type | Description |
+|------|-------------|
+| `modem` | Shop was added via direct modem connection (default) |
+| `radio_tower` | Shop was added via CC Radio Tower (remote/relay) |
+
+```typescript
+import type { Shop, ShopSourceType } from 'krawlet-js';
+
+const shop: Shop = await client.shops.get('123');
+console.log(shop.sourceType); // 'modem' or 'radio_tower'
 ```
 
 ### Items
@@ -352,7 +369,7 @@ The client automatically retries requests when rate limits are exceeded with exp
 The library is written in TypeScript and provides full type definitions.
 
 ```typescript
-import type { Shop, Item, Player, KrawletError } from 'krawlet-js';
+import type { Shop, Item, Player, ShopSourceType, KrawletError } from 'krawlet-js';
 
 // All responses are fully typed
 const shops: Shop[] = await client.shops.getAll();

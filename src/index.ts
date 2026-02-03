@@ -52,6 +52,7 @@ export type {
   PlayerNotifications,
   KnownAddressType,
   ItemChangeType,
+  ShopSourceType,
 } from './types';
 
 export { ErrorCode } from './types';
