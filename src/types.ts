@@ -276,8 +276,13 @@ export interface ShopSyncData {
 
 /**
  * API key tier
+ * - `free` - Free tier user API keys
+ * - `premium` - Premium tier user API keys
+ * - `shopsync` - ShopSync service API keys
+ * - `enderstorage` - EnderStorage service API keys
+ * - `internal` - Internal service API keys
  */
-export type ApiKeyTier = 'free' | 'premium';
+export type ApiKeyTier = 'free' | 'premium' | 'shopsync' | 'enderstorage' | 'internal';
 
 /**
  * API key usage statistics
