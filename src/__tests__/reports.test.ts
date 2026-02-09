@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ReportsResource } from '../resources/reports';
 import { HttpClient } from '../http-client';
-import type { ApiResponse, ReportRecords, ChangeLogResult } from '../types';
+import type { ApiResponse, ReportRecords, ShopChangeLogResponse, ItemChangeLogResponse, PriceChangeLogResponse } from '../types';
 
 describe('ReportsResource', () => {
   let client: HttpClient;
@@ -260,8 +260,9 @@ describe('ReportsResource', () => {
 
   describe('getShopChangeLogs', () => {
     it('should return shop change logs with all filters', async () => {
-      const mockData: ChangeLogResult = {
+      const mockData: ShopChangeLogResponse = {
         count: 15,
+        total: 150,
         logs: [
           {
             id: 1,
@@ -277,7 +278,7 @@ describe('ReportsResource', () => {
         ],
       };
 
-      const mockResponse: ApiResponse<ChangeLogResult> = {
+      const mockResponse: ApiResponse<ShopChangeLogResponse> = {
         success: true,
         data: mockData,
         meta: {
@@ -330,12 +331,13 @@ describe('ReportsResource', () => {
     });
 
     it('should return shop change logs without filters', async () => {
-      const mockData: ChangeLogResult = {
+      const mockData: ShopChangeLogResponse = {
         count: 100,
+        total: 500,
         logs: [],
       };
 
-      const mockResponse: ApiResponse<ChangeLogResult> = {
+      const mockResponse: ApiResponse<ShopChangeLogResponse> = {
         success: true,
         data: mockData,
         meta: {
@@ -364,8 +366,9 @@ describe('ReportsResource', () => {
 
   describe('getItemChangeLogs', () => {
     it('should return item change logs', async () => {
-      const mockData: ChangeLogResult = {
+      const mockData: ItemChangeLogResponse = {
         count: 25,
+        total: 250,
         logs: [
           {
             id: 1,
@@ -381,7 +384,7 @@ describe('ReportsResource', () => {
         ],
       };
 
-      const mockResponse: ApiResponse<ChangeLogResult> = {
+      const mockResponse: ApiResponse<ItemChangeLogResponse> = {
         success: true,
         data: mockData,
         meta: {
@@ -410,8 +413,9 @@ describe('ReportsResource', () => {
 
   describe('getPriceChangeLogs', () => {
     it('should return price change logs', async () => {
-      const mockData: ChangeLogResult = {
+      const mockData: PriceChangeLogResponse = {
         count: 12,
+        total: 120,
         logs: [
           {
             id: 1,
@@ -429,7 +433,7 @@ describe('ReportsResource', () => {
         ],
       };
 
-      const mockResponse: ApiResponse<ChangeLogResult> = {
+      const mockResponse: ApiResponse<PriceChangeLogResponse> = {
         success: true,
         data: mockData,
         meta: {

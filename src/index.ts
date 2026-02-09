@@ -40,6 +40,9 @@ export type {
   ReportRecords,
   ChangeLogResult,
   ChangeLogOptions,
+  ShopChangeLogResponse,
+  ItemChangeLogResponse,
+  PriceChangeLogResponse,
   // API key management
   ApiKeyInfo,
   ApiKeyUsage,

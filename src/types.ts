@@ -576,11 +576,50 @@ export interface ReportRecords {
 }
 
 /**
- * Change log result
+ * Change log result (generic)
  */
 export interface ChangeLogResult {
+  /** Number of logs in this response */
   count: number;
+  /** Total number of logs matching the query */
+  total: number;
   logs: unknown[];
+}
+
+/**
+ * Shop change log response
+ */
+export interface ShopChangeLogResponse {
+  /** Number of logs in this response */
+  count: number;
+  /** Total number of logs matching the query */
+  total: number;
+  /** Array of shop change log entries */
+  logs: ShopChangeLog[];
+}
+
+/**
+ * Item change log response
+ */
+export interface ItemChangeLogResponse {
+  /** Number of logs in this response */
+  count: number;
+  /** Total number of logs matching the query */
+  total: number;
+  /** Array of item change log entries */
+  logs: ItemChangeLog[];
+}
+
+/**
+ * Price change log response
+ */
+export interface PriceChangeLogResponse {
+  /** Number of logs in this response */
+  count: number;
+  /** Total number of logs matching the query */
+  total: number;
+  /** Array of price change log entries */
+  logs: PriceChangeLog[];
 }
 
 /**

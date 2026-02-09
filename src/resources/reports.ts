@@ -1,5 +1,11 @@
 import type { HttpClient } from '../http-client';
-import type { ReportRecords, ChangeLogResult, ChangeLogOptions } from '../types';
+import type {
+  ReportRecords,
+  ChangeLogOptions,
+  ShopChangeLogResponse,
+  ItemChangeLogResponse,
+  PriceChangeLogResponse,
+} from '../types';
 
 /**
  * Reports resource for retrieving ShopSync statistics and change logs
@@ -83,10 +89,10 @@ export class ReportsResource {
   /**
    * Retrieve shop change logs from the database
    * @param options - Query options including pagination and filtering
-   * @returns Shop change logs
+   * @returns Response containing count (number of logs in this response), total (total logs matching query), and logs (array of ShopChangeLog)
    */
-  async getShopChangeLogs(options?: ChangeLogOptions): Promise<ChangeLogResult> {
-    const response = await this.client.request<ChangeLogResult>('/v1/reports/shop-change-logs', {
+  async getShopChangeLogs(options?: ChangeLogOptions): Promise<ShopChangeLogResponse> {
+    const response = await this.client.request<ShopChangeLogResponse>('/v1/reports/shop-change-logs', {
       params: {
         limit: options?.limit,
         offset: options?.offset,
@@ -101,10 +107,10 @@ export class ReportsResource {
   /**
    * Retrieve item change logs from the database
    * @param options - Query options including pagination and filtering
-   * @returns Item change logs
+   * @returns Response containing count (number of logs in this response), total (total logs matching query), and logs (array of ItemChangeLog)
    */
-  async getItemChangeLogs(options?: ChangeLogOptions): Promise<ChangeLogResult> {
-    const response = await this.client.request<ChangeLogResult>('/v1/reports/item-change-logs', {
+  async getItemChangeLogs(options?: ChangeLogOptions): Promise<ItemChangeLogResponse> {
+    const response = await this.client.request<ItemChangeLogResponse>('/v1/reports/item-change-logs', {
       params: {
         limit: options?.limit,
         offset: options?.offset,
@@ -119,10 +125,10 @@ export class ReportsResource {
   /**
    * Retrieve price change logs from the database
    * @param options - Query options including pagination and filtering
-   * @returns Price change logs
+   * @returns Response containing count (number of logs in this response), total (total logs matching query), and logs (array of PriceChangeLog)
    */
-  async getPriceChangeLogs(options?: ChangeLogOptions): Promise<ChangeLogResult> {
-    const response = await this.client.request<ChangeLogResult>('/v1/reports/price-change-logs', {
+  async getPriceChangeLogs(options?: ChangeLogOptions): Promise<PriceChangeLogResponse> {
+    const response = await this.client.request<PriceChangeLogResponse>('/v1/reports/price-change-logs', {
       params: {
         limit: options?.limit,
         offset: options?.offset,
