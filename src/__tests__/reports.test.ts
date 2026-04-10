@@ -1,7 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { ReportsResource } from '../resources/reports';
 import { HttpClient } from '../http-client';
-import type { ApiResponse, ReportRecords, ShopChangeLogResponse, ItemChangeLogResponse, PriceChangeLogResponse } from '../types';
+import type {
+  ApiResponse,
+  ReportRecords,
+  ShopChangeLogResponse,
+  ItemChangeLogResponse,
+  PriceChangeLogResponse,
+} from '../types';
 
 describe('ReportsResource', () => {
   let client: HttpClient;

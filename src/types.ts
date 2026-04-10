@@ -231,6 +231,98 @@ export interface PriceChangeLog {
 }
 
 /**
+ * Field-level change metadata used in report event payloads
+ */
+export interface ShopChangeField {
+  field: string;
+  previousValue: unknown;
+  newValue: unknown;
+}
+
+/**
+ * Stats payload from /v1/reports/stats
+ */
+export interface ReporterStats {
+  validationFailures: number;
+  successfulPosts: number;
+  shopChanges: number;
+  itemChanges: number;
+  oldestRecord: string | null;
+  newestRecord: string | null;
+  persistent: {
+    shopChanges: number;
+    itemChanges: number;
+    priceChanges: number;
+    total: number;
+  };
+}
+
+/**
+ * Record from /v1/reports/validation-failures
+ */
+export interface ValidationFailureRecord {
+  id: string;
+  timestamp: string;
+  rawData: unknown;
+  errors: string[];
+  shopName?: string;
+  computerId?: number;
+}
+
+/**
+ * Record from /v1/reports/successful-posts
+ */
+export interface SuccessfulPostRecord {
+  id: string;
+  timestamp: string;
+  shopId: string;
+  shopName: string;
+  rawData: ShopSyncData;
+  itemCount: number;
+}
+
+/**
+ * Shop change event from /v1/reports/shop-changes
+ */
+export interface ShopChangeRecord {
+  id: string;
+  timestamp: string;
+  shopId: string;
+  shopName: string;
+  changes: ShopChangeField[];
+  isNewShop: boolean;
+}
+
+/**
+ * Item summary used in item-change report events
+ */
+export interface ItemSummary {
+  name: string;
+  displayName: string;
+  hash: string;
+}
+
+/**
+ * Updated item summary with per-field changes
+ */
+export interface ItemUpdateSummary extends ItemSummary {
+  changes: ShopChangeField[];
+}
+
+/**
+ * Item change event from /v1/reports/item-changes
+ */
+export interface ItemChangeRecord {
+  id: string;
+  timestamp: string;
+  shopId: string;
+  shopName: string;
+  added: ItemSummary[];
+  removed: ItemSummary[];
+  updated: ItemUpdateSummary[];
+}
+
+/**
  * Data structure for creating/updating shops
  */
 export interface ShopSyncData {
@@ -557,12 +649,61 @@ export interface DetailedHealthResponse {
   services: HealthServicesDetailed;
 }
 
+export type EnderStorageColor = {
+  name: string;
+  color: number;
+};
+
+export type EnderStorageItem = {
+  name: string;
+  displayName: string;
+  rawName: string;
+  maxCount: number;
+  count: number;
+  mapColor?: number;
+  mapColour?: number;
+  itemGroups: Record<string, unknown>;
+  tags: Record<string, unknown>;
+  [key: string]: unknown;
+};
+
+export type EnderStorageChest = {
+  colors: EnderStorageColor[];
+  contents: Record<string, EnderStorageItem>;
+  name?: string;
+  description?: string;
+  displayName?: string;
+  [key: string]: unknown;
+};
+
+export type EnderStorageCollection = {
+  data: EnderStorageChest[];
+  retrievedAt: string;
+};
+
+export type EnderStorageMeta = {
+  timestamp: string;
+  elapsed: number;
+  version: string;
+  requestId: string;
+  [key: string]: unknown;
+};
+
+export type EnderStorageApiPayload = {
+  success: boolean;
+  data: EnderStorageCollection;
+  meta?: EnderStorageMeta;
+  [key: string]: unknown;
+};
+
+export type EnderStoragePayload = EnderStorageApiPayload | EnderStorageChest[];
+
 /**
  * Storage data response
  */
 export interface StorageData {
   /** The stored ender storage data */
-  data: unknown;
+  data: EnderStorageChest[];
   /** ISO 8601 timestamp */
   retrievedAt: string;
 }
@@ -570,57 +711,36 @@ export interface StorageData {
 /**
  * Report records response
  */
-export interface ReportRecords {
+export interface ReportRecords<TRecord = unknown> {
   count: number;
-  records: unknown[];
+  records: TRecord[];
 }
 
 /**
  * Change log result (generic)
  */
-export interface ChangeLogResult {
+export interface ChangeLogResult<TLog = unknown> {
   /** Number of logs in this response */
   count: number;
   /** Total number of logs matching the query */
   total: number;
-  logs: unknown[];
+  logs: TLog[];
 }
 
 /**
  * Shop change log response
  */
-export interface ShopChangeLogResponse {
-  /** Number of logs in this response */
-  count: number;
-  /** Total number of logs matching the query */
-  total: number;
-  /** Array of shop change log entries */
-  logs: ShopChangeLog[];
-}
+export type ShopChangeLogResponse = ChangeLogResult<ShopChangeLog>;
 
 /**
  * Item change log response
  */
-export interface ItemChangeLogResponse {
-  /** Number of logs in this response */
-  count: number;
-  /** Total number of logs matching the query */
-  total: number;
-  /** Array of item change log entries */
-  logs: ItemChangeLog[];
-}
+export type ItemChangeLogResponse = ChangeLogResult<ItemChangeLog>;
 
 /**
  * Price change log response
  */
-export interface PriceChangeLogResponse {
-  /** Number of logs in this response */
-  count: number;
-  /** Total number of logs matching the query */
-  total: number;
-  /** Array of price change log entries */
-  logs: PriceChangeLog[];
-}
+export type PriceChangeLogResponse = ChangeLogResult<PriceChangeLog>;
 
 /**
  * Options for change log queries
@@ -635,5 +755,44 @@ export interface ChangeLogOptions {
   /** ISO 8601 datetime - filter changes after this time */
   since?: string;
   /** ISO 8601 datetime - filter changes before this time */
+  until?: string;
+}
+
+/**
+ * Base query parameters for ShopSync report endpoints
+ */
+export interface BaseQueryParams {
+  limit?: number;
+  offset?: number;
+}
+
+/**
+ * Query options for /v1/reports/shop-changes
+ */
+export interface ShopChangesParams extends BaseQueryParams {
+  shopId?: string;
+  since?: string;
+  until?: string;
+  source?: 'memory' | 'persistent' | 'both';
+}
+
+/**
+ * Query options for /v1/reports/item-changes
+ */
+export interface ItemChangesParams extends BaseQueryParams {
+  shopId?: string;
+  changeType?: 'added' | 'removed';
+  since?: string;
+  until?: string;
+  source?: 'memory' | 'persistent' | 'both';
+}
+
+/**
+ * Query options for /v1/reports/price-change-logs
+ */
+export interface PriceChangesParams extends BaseQueryParams {
+  shopId?: string;
+  itemHash?: string;
+  since?: string;
   until?: string;
 }
