@@ -70,6 +70,17 @@ export type {
   RequestLogsResponse,
   QuickCodeGenerateResponse,
   QuickCodeRedeemResponse,
+  // Transfers
+  StorageSlotItem,
+  StorageSlotContents,
+  TransferTargetLink,
+  TransferTarget,
+  TransferStatus,
+  Transfer,
+  TransferCreateRequest,
+  PublicStorageSourceEntity,
+  PublicStorageTransferRequest,
+  PublicStorageTransferResponse,
   // Enums and type aliases
   PlayerNotifications,
   KnownAddressType,
@@ -88,3 +99,4 @@ export { AddressesResource } from './resources/addresses';
 export { StorageResource } from './resources/storage';
 export { ReportsResource } from './resources/reports';
 export { ApiKeyResource } from './resources/apikey';
+export { TransfersResource } from './resources/transfers';

@@ -709,6 +709,132 @@ export interface StorageData {
 }
 
 /**
+ * A single item stack in a storage slot
+ */
+export interface StorageSlotItem {
+  /** Minecraft item ID */
+  name: string;
+  /** Number of items in this stack */
+  count: number;
+  /** Opaque NBT hash string for NBT-bearing items */
+  nbt?: string | null;
+}
+
+/**
+ * Live ender storage contents response payload
+ */
+export interface StorageSlotContents {
+  items: StorageSlotItem[];
+}
+
+/**
+ * Transfer target link descriptor
+ */
+export interface TransferTargetLink {
+  type: string;
+  value: string;
+}
+
+/**
+ * Transfer target
+ */
+export interface TransferTarget {
+  id: string;
+  name: string;
+  type: string;
+  links: TransferTargetLink[];
+}
+
+/**
+ * Transfer status values
+ */
+export type TransferStatus = 'pending' | 'in_progress' | 'completed' | 'failed' | 'cancelled';
+
+/**
+ * Ender storage transfer record
+ */
+export interface Transfer {
+  /** Transfer UUID */
+  id: string;
+  /** Current transfer status */
+  status: TransferStatus;
+  /** Failure reason, if any */
+  error: string | null;
+  /** Worker computer id processing this transfer */
+  workerId?: number | null;
+  /** Sender UUID */
+  fromUUID: string;
+  /** Sender username */
+  fromUsername: string;
+  /** Recipient UUID */
+  toUUID: string;
+  /** Recipient username */
+  toUsername: string;
+  /** Optional item filter by name */
+  itemName: string | null;
+  /** Optional item filter by NBT hash */
+  itemNbt: string | null;
+  /** Transfer cap, null means all matching items */
+  quantity: number | null;
+  /** Number of items transferred so far */
+  quantityTransferred: number;
+  /** ISO 8601 datetime */
+  timestamp: string;
+}
+
+/**
+ * Payload for creating a transfer
+ */
+export interface TransferCreateRequest {
+  /** Recipient username or UUID */
+  to: string;
+  /** Optional item name filter */
+  itemName?: string;
+  /** Optional item NBT hash filter */
+  itemNbt?: string;
+  /** Optional transfer cap */
+  quantity?: number;
+  /** Seconds to wait for items/space before failing */
+  timeout?: number;
+}
+
+/**
+ * Public storage transfer source entity summary
+ */
+export interface PublicStorageSourceEntity {
+  id: string;
+  name: string;
+  type: string;
+  alias?: string;
+}
+
+/**
+ * Payload for requesting a transfer from public/service storage
+ */
+export interface PublicStorageTransferRequest {
+  /** Minecraft item ID */
+  itemName: string;
+  /** Optional exact NBT hash filter */
+  itemNbt?: string;
+  /** Quantity requested */
+  quantity: number;
+  /** Seconds to wait for items/space before failing */
+  timeout?: number;
+  /** Existing entity id/name/link lookup value */
+  source?: string;
+  /** EnderStorage frequency triplet */
+  colors?: [number, number, number];
+}
+
+/**
+ * Response payload for public storage transfer requests
+ */
+export interface PublicStorageTransferResponse {
+  transfer: Transfer;
+  sourceEntity: PublicStorageSourceEntity;
+}
+
+/**
  * Report records response
  */
 export interface ReportRecords<TRecord = unknown> {

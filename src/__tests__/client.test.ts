@@ -19,6 +19,7 @@ describe('KrawletClient', () => {
     expect(client.addresses).toBeDefined();
     expect(client.storage).toBeDefined();
     expect(client.reports).toBeDefined();
+    expect(client.transfers).toBeDefined();
   });
 
   it('should create a client with custom configuration', () => {
@@ -39,5 +40,6 @@ describe('KrawletClient', () => {
     expect(typeof client.addresses.getAll).toBe('function');
     expect(typeof client.storage.get).toBe('function');
     expect(typeof client.reports.getStats).toBe('function');
+    expect(typeof client.transfers.getAll).toBe('function');
   });
 });
