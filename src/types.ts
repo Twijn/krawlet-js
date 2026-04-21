@@ -775,7 +775,7 @@ export interface Transfer {
   /** Optional item filter by NBT hash */
   itemNbt: string | null;
   /** Transfer memo */
-  memo: string;
+  memo?: string;
   /** Transfer cap, null means all matching items */
   quantity: number | null;
   /** Number of items transferred so far */
@@ -795,7 +795,7 @@ export interface TransferCreateRequest {
   /** Optional item NBT hash filter */
   itemNbt?: string;
   /** Transfer memo */
-  memo: string;
+  memo?: string;
   /** Optional transfer cap */
   quantity?: number;
   /** Seconds to wait for items/space before failing */
