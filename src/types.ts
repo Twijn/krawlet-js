@@ -774,6 +774,8 @@ export interface Transfer {
   itemName: string | null;
   /** Optional item filter by NBT hash */
   itemNbt: string | null;
+  /** Transfer memo */
+  memo: string;
   /** Transfer cap, null means all matching items */
   quantity: number | null;
   /** Number of items transferred so far */
@@ -792,6 +794,8 @@ export interface TransferCreateRequest {
   itemName?: string;
   /** Optional item NBT hash filter */
   itemNbt?: string;
+  /** Transfer memo */
+  memo: string;
   /** Optional transfer cap */
   quantity?: number;
   /** Seconds to wait for items/space before failing */
@@ -799,12 +803,17 @@ export interface TransferCreateRequest {
 }
 
 /**
+ * Ender storage entity type
+ */
+export type EStorageEntityType = 'private' | 'service' | 'public' | 'public_storage';
+
+/**
  * Public storage transfer source entity summary
  */
 export interface PublicStorageSourceEntity {
   id: string;
   name: string;
-  type: string;
+  type: EStorageEntityType;
   alias?: string;
 }
 

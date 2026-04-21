@@ -4,6 +4,7 @@ import type {
   KnownAddressType,
   PlayerNotifications,
   ItemChangeType,
+  EStorageEntityType,
   Player,
   Shop,
   Item,
@@ -38,6 +39,11 @@ describe('Types', () => {
     it('should have correct ItemChangeType values', () => {
       const changeTypes: ItemChangeType[] = ['added', 'removed'];
       expect(changeTypes).toHaveLength(2);
+    });
+
+    it('should include public in EStorageEntityType values', () => {
+      const entityTypes: EStorageEntityType[] = ['private', 'service', 'public', 'public_storage'];
+      expect(entityTypes).toContain('public');
     });
   });
 

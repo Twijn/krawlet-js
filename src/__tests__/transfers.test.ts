@@ -24,6 +24,7 @@ describe('TransfersResource', () => {
     toUsername: 'Player2',
     itemName: 'minecraft:diamond',
     itemNbt: null,
+    memo: 'test transfer memo',
     quantity: 64,
     quantityTransferred: 0,
     timestamp: '2026-04-12T10:30:00.000Z',
@@ -72,6 +73,7 @@ describe('TransfersResource', () => {
       const payload: TransferCreateRequest = {
         to: 'Player2',
         itemName: 'minecraft:diamond',
+        memo: 'please deliver to storage',
         quantity: 64,
       };
 

@@ -78,6 +78,7 @@ export type {
   TransferStatus,
   Transfer,
   TransferCreateRequest,
+  EStorageEntityType,
   PublicStorageSourceEntity,
   PublicStorageTransferRequest,
   PublicStorageTransferResponse,
