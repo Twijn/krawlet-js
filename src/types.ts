@@ -762,12 +762,12 @@ export interface Transfer {
   error: string | null;
   /** Worker computer id processing this transfer */
   workerId?: number | null;
-  /** Sender UUID */
-  fromUUID: string;
+  /** Sender entity id */
+  fromEntityId: string;
   /** Sender username */
   fromUsername: string;
-  /** Recipient UUID */
-  toUUID: string;
+  /** Recipient entity id */
+  toEntityId: string;
   /** Recipient username */
   toUsername: string;
   /** Optional item filter by name */
