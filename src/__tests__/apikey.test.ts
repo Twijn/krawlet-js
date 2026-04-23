@@ -27,6 +27,8 @@ describe('ApiKeyResource', () => {
     const mockApiKeyInfo: ApiKeyInfo = {
       id: 'key-123',
       name: 'Test API Key',
+      mcUuid: 'd98440d6-5117-4ac8-bd50-70b086101e3e',
+      mcName: 'PlayerName',
       email: 'test@example.com',
       tier: 'premium',
       rateLimit: 1000,
@@ -313,6 +315,8 @@ describe('ApiKeyResource', () => {
       message: 'Quick code redeemed successfully',
       apiKey: 'kraw_abc123def456789xyz',
       name: "PlayerName's API Key",
+      mcUuid: 'd98440d6-5117-4ac8-bd50-70b086101e3e',
+      mcName: 'PlayerName',
       tier: 'free',
       rateLimit: 1000,
       warning: 'Save this API key securely - it will not be shown again!',

@@ -404,6 +404,10 @@ export interface ApiKeyInfo {
   id: string;
   /** Key name/label */
   name: string;
+  /** Minecraft account UUID associated with the API key */
+  mcUuid: string;
+  /** Minecraft account name associated with the API key */
+  mcName: string;
   /** Contact email */
   email: string | null;
   /** API key tier */
@@ -478,6 +482,10 @@ export interface QuickCodeRedeemResponse {
   apiKey: string;
   /** Name/label of the API key */
   name: string;
+  /** Minecraft account UUID associated with the API key */
+  mcUuid: string;
+  /** Minecraft account name associated with the API key */
+  mcName: string;
   /** API key tier */
   tier: ApiKeyTier;
   /** Rate limit (requests per hour) */
