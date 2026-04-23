@@ -82,7 +82,7 @@ describe('WebsocketsResource', () => {
     });
   });
 
-  it('should connect to /api/v1/ws and resolve hello', async () => {
+  it('should connect to /v1/ws and resolve hello', async () => {
     const startPromise = sockets.start();
 
     mockSocket.open();
@@ -95,7 +95,7 @@ describe('WebsocketsResource', () => {
 
     const hello = await startPromise;
 
-    expect(mockSocket.url).toBe('wss://api.krawlet.cc/api/v1/ws');
+    expect(mockSocket.url).toBe('wss://api.krawlet.cc/v1/ws');
     expect(hello.type).toBe('hello');
   });
 

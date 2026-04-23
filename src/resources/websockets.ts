@@ -404,8 +404,8 @@ export class WebsocketsResource {
         } else if (trimmedPath.endsWith('/v1')) {
             base.pathname = `${trimmedPath}/ws`;
         } else {
-            // Root host (e.g. api.krawlet.cc) is forwarded to /api on Express.
-            base.pathname = '/api/v1/ws';
+            // Default hosts use /v1 directly.
+            base.pathname = '/v1/ws';
         }
 
         base.search = '';
