@@ -82,6 +82,14 @@ export type {
   PublicStorageSourceEntity,
   PublicStorageTransferRequest,
   PublicStorageTransferResponse,
+  // WebSockets
+  WebsocketMessageId,
+  WebsocketEnvelope,
+  WebsocketErrorPayload,
+  WebsocketHelloPayload,
+  WebsocketAuthOk,
+  WebsocketTransferListPayload,
+  WebsocketTargetListPayload,
   // Enums and type aliases
   PlayerNotifications,
   KnownAddressType,
@@ -101,3 +109,4 @@ export { StorageResource } from './resources/storage';
 export { ReportsResource } from './resources/reports';
 export { ApiKeyResource } from './resources/apikey';
 export { TransfersResource } from './resources/transfers';
+export { WebsocketsResource, WebsocketProtocolError, type WebsocketClientOptions } from './resources/websockets';

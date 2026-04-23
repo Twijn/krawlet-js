@@ -8,6 +8,7 @@ import { StorageResource } from './resources/storage';
 import { ReportsResource } from './resources/reports';
 import { ApiKeyResource } from './resources/apikey';
 import { TransfersResource } from './resources/transfers';
+import { WebsocketsResource } from './resources/websockets';
 import type { RateLimit } from './types';
 
 /**
@@ -67,6 +68,8 @@ export class KrawletClient {
   public readonly apiKey: ApiKeyResource;
   /** Ender storage transfer endpoints */
   public readonly transfers: TransfersResource;
+  /** WebSocket realtime endpoints */
+  public readonly websockets: WebsocketsResource;
 
   /**
    * Create a new Krawlet API client
@@ -95,6 +98,7 @@ export class KrawletClient {
     this.reports = new ReportsResource(this.httpClient);
     this.apiKey = new ApiKeyResource(this.httpClient);
     this.transfers = new TransfersResource(this.httpClient);
+    this.websockets = new WebsocketsResource(this.httpClient);
   }
 
   /**

@@ -844,6 +844,59 @@ export interface PublicStorageTransferResponse {
 }
 
 /**
+ * WebSocket request/response message id
+ */
+export type WebsocketMessageId = string | number;
+
+/**
+ * Generic websocket envelope
+ */
+export interface WebsocketEnvelope<TPayload = unknown> {
+  type: string;
+  id?: WebsocketMessageId;
+  payload: TPayload;
+}
+
+/**
+ * Standard websocket protocol error payload
+ */
+export interface WebsocketErrorPayload {
+  code: string;
+  message: string;
+}
+
+/**
+ * WebSocket hello payload
+ */
+export interface WebsocketHelloPayload {
+  supportedClientMessages?: string[];
+  [key: string]: unknown;
+}
+
+/**
+ * WebSocket auth success payload
+ */
+export interface WebsocketAuthOk {
+  tier: ApiKeyTier;
+  name: string;
+  role: 'client';
+}
+
+/**
+ * list_transfers response payload
+ */
+export interface WebsocketTransferListPayload {
+  transfers: Transfer[];
+}
+
+/**
+ * list_targets response payload
+ */
+export interface WebsocketTargetListPayload {
+  targets: TransferTarget[];
+}
+
+/**
  * Report records response
  */
 export interface ReportRecords<TRecord = unknown> {

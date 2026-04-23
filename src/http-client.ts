@@ -64,6 +64,13 @@ export class HttpClient {
   }
 
   /**
+   * Get configured API base URL
+   */
+  getBaseUrl(): string {
+    return this.config.baseUrl;
+  }
+
+  /**
    * Make an HTTP request
    */
   async request<T>(path: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
