@@ -782,6 +782,8 @@ export interface Transfer {
   toMcName: string | null;
   /** Optional item filter by name */
   itemName: string | null;
+  /** Optional item display name */
+  itemDisplayName?: string;
   /** Optional item filter by NBT hash */
   itemNbt: string | null;
   /** Transfer memo */
