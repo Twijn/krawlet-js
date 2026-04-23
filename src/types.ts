@@ -742,6 +742,8 @@ export interface TransferTarget {
   id: string;
   name: string;
   type: string;
+  mcUuid: string | null;
+  mcName: string | null;
   links: TransferTargetLink[];
 }
 
@@ -766,10 +768,18 @@ export interface Transfer {
   fromEntityId: string;
   /** Sender username */
   fromUsername: string;
+  /** Sender Minecraft UUID shorthand */
+  fromMcUuid: string | null;
+  /** Sender Minecraft username shorthand */
+  fromMcName: string | null;
   /** Recipient entity id */
   toEntityId: string;
   /** Recipient username */
   toUsername: string;
+  /** Recipient Minecraft UUID shorthand */
+  toMcUuid: string | null;
+  /** Recipient Minecraft username shorthand */
+  toMcName: string | null;
   /** Optional item filter by name */
   itemName: string | null;
   /** Optional item filter by NBT hash */
