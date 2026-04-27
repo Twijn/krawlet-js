@@ -774,16 +774,16 @@ export interface Transfer {
   workerId?: number | null;
   /** Sender entity id */
   fromEntityId: string;
-  /** Sender username */
-  fromUsername: string;
+  /** Sender name */
+  fromName: string;
   /** Sender Minecraft UUID shorthand */
   fromMcUuid: string | null;
   /** Sender Minecraft username shorthand */
   fromMcName: string | null;
   /** Recipient entity id */
   toEntityId: string;
-  /** Recipient username */
-  toUsername: string;
+  /** Recipient name */
+  toName: string;
   /** Recipient Minecraft UUID shorthand */
   toMcUuid: string | null;
   /** Recipient Minecraft username shorthand */
