@@ -150,6 +150,10 @@ export interface Player {
   createdDate: string | null;
   /** ISO 8601 datetime */
   updatedDate: string | null;
+  /** ISO 8601 datetime */
+  lastSeenDate: string | null;
+  /** Whether the player has set up Klog transfers (received an ender storage) */
+  isKlogSetup: boolean;
   /** Whether player is currently online */
   online: boolean;
 }
