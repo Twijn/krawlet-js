@@ -42,13 +42,14 @@
   },
   "pnpm": {
     "overrides": {
-      "flatted": "^3.4.2"
+      "flatted": "^3.4.2",
+      "postcss": "^8.5.10"
     }
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
-    "@typescript-eslint/eslint-plugin": "^8.58.1",
-    "@typescript-eslint/parser": "^8.58.1",
+    "@typescript-eslint/eslint-plugin": "^8.60.1",
+    "@typescript-eslint/parser": "^8.60.1",
     "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^9.39.4",
     "prettier": "^3.4.2",
