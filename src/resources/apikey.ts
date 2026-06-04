@@ -2,6 +2,7 @@ import type { HttpClient } from '../http-client';
 import type {
   ApiKeyInfo,
   ApiKeyUsage,
+  RequestLog,
   RequestLogsResponse,
   QuickCodeGenerateResponse,
   QuickCodeRedeemResponse,
@@ -49,6 +50,25 @@ export interface GetApiKeyLogsOptions {
 export class ApiKeyResource {
   constructor(private client: HttpClient) {}
 
+  private normalizeUsage(usage: ApiKeyUsage): ApiKeyUsage {
+    return {
+      totalRequests: usage.totalRequests,
+      last24h: usage.last24h,
+      last7d: usage.last7d,
+      last30d: usage.last30d,
+      blockedRequests: usage.blockedRequests,
+    };
+  }
+
+  private normalizeLog(log: RequestLog): RequestLog {
+    return {
+      timestamp: log.timestamp,
+      tier: log.tier,
+      wasBlocked: log.wasBlocked,
+      blockReason: log.blockReason,
+    };
+  }
+
   /**
    * Get information about the authenticated API key
    *
@@ -76,13 +96,21 @@ export class ApiKeyResource {
     const response = await this.client.request<ApiKeyInfo>('/v1/apikey', {
       params: Object.keys(params).length > 0 ? params : undefined,
     });
-    return response.data;
+
+    if (!response.data.usage) {
+      return response.data;
+    }
+
+    return {
+      ...response.data,
+      usage: this.normalizeUsage(response.data.usage),
+    };
   }
 
   /**
    * Get detailed usage statistics for the authenticated API key
    *
-   * @returns Detailed usage statistics including request counts and top endpoints
+    * @returns Detailed usage statistics including request counters and blocked requests
    * @throws {KrawletError} If not authenticated (401)
    *
    * @example
@@ -90,17 +118,21 @@ export class ApiKeyResource {
    * const usage = await client.apiKey.getUsage();
    * console.log(`Total requests: ${usage.totalRequests}`);
    * console.log(`Last 24h: ${usage.last24h}`);
+    * console.log(`Last 7d: ${usage.last7d}`);
+    * console.log(`Last 30d: ${usage.last30d}`);
    * console.log(`Blocked: ${usage.blockedRequests}`);
-   * console.log('Top endpoints:', usage.topEndpoints);
    * ```
    */
   async getUsage(): Promise<ApiKeyUsage> {
     const response = await this.client.request<ApiKeyUsage>('/v1/apikey/usage');
-    return response.data;
+    return this.normalizeUsage(response.data);
   }
 
   /**
    * Get recent request logs for the authenticated API key
+    *
+    * @remarks
+    * Request logs are retention-limited by server configuration, with a minimum retention of 7 days.
    *
    * @param options - Optional parameters
    * @param options.limit - Maximum number of logs to return (1-100, default: 50)
@@ -116,7 +148,7 @@ export class ApiKeyResource {
    * const recentLogs = await client.apiKey.getLogs({ limit: 10 });
    *
    * for (const log of recentLogs.logs) {
-   *   console.log(`${log.method} ${log.path} - ${log.responseStatus} (${log.responseTimeMs}ms)`);
+  *   console.log(`${log.timestamp} ${log.tier} blocked=${log.wasBlocked} reason=${log.blockReason}`);
    * }
    * ```
    */
@@ -130,7 +162,10 @@ export class ApiKeyResource {
     const response = await this.client.request<RequestLogsResponse>('/v1/apikey/logs', {
       params: Object.keys(params).length > 0 ? params : undefined,
     });
-    return response.data;
+    return {
+      count: response.data.count,
+      logs: response.data.logs.map((log) => this.normalizeLog(log)),
+    };
   }
 
   /**

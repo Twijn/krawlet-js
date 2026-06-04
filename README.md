@@ -18,6 +18,8 @@
   - [Addresses](#addresses)
   - [Storage](#storage)
   - [Reports](#reports)
+  - [API Key Management](#api-key-management)
+- [Migration Notes](#migration-notes)
 - [Error Handling](#error-handling)
 - [Rate Limiting](#rate-limiting)
 - [TypeScript Support](#typescript-support)
@@ -287,6 +289,48 @@ const successes = await client.reports.getSuccessfulPosts({ limit: 10 });
 // Get specific report
 const report = await client.reports.get('report-id');
 ```
+
+### API Key Management
+
+Manage and inspect the authenticated API key.
+
+```typescript
+// Get API key info (usage included by default)
+const info = await client.apiKey.getInfo();
+console.log(info.tier, info.rateLimit);
+
+// Get API key info without usage stats
+const basicInfo = await client.apiKey.getInfo({ usage: false });
+console.log(basicInfo.name, basicInfo.isActive);
+
+// Get minimal usage counters
+const usage = await client.apiKey.getUsage();
+console.log(usage.totalRequests);
+console.log(usage.last24h, usage.last7d, usage.last30d);
+console.log(usage.blockedRequests);
+
+// Get recent request logs (minimal contract)
+const logs = await client.apiKey.getLogs({ limit: 10 });
+for (const log of logs.logs) {
+  console.log(log.timestamp, log.tier, log.wasBlocked, log.blockReason);
+}
+```
+
+Request logs are retention-limited by server configuration, with a minimum retention of 7 days.
+
+## Migration Notes
+
+### API Key Usage and Logs Contract Update
+
+The API key usage and logs payloads were updated to match the current server contract.
+
+Breaking changes:
+- `client.apiKey.getUsage()` now returns only: `totalRequests`, `last24h`, `last7d`, `last30d`, `blockedRequests`.
+- `client.apiKey.getInfo()` (when usage is included) now exposes the same minimal usage shape above.
+- `client.apiKey.getLogs()` log entries now include only: `timestamp`, `tier`, `wasBlocked`, `blockReason`.
+- Removed from API key logs: `requestId`, `method`, `path`, `responseStatus`, `responseTimeMs`.
+
+Request log retention is server-configurable with a minimum retention window of 7 days.
 
 ## Error Handling
 

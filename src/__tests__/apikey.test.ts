@@ -42,11 +42,6 @@ describe('ApiKeyResource', () => {
         last7d: 500,
         last30d: 2000,
         blockedRequests: 5,
-        avgResponseTimeMs: 150,
-        topEndpoints: [
-          { path: '/v1/shops', count: 2500 },
-          { path: '/v1/items', count: 1500 },
-        ],
       },
     };
 
@@ -144,12 +139,6 @@ describe('ApiKeyResource', () => {
       last7d: 500,
       last30d: 2000,
       blockedRequests: 5,
-      avgResponseTimeMs: 150,
-      topEndpoints: [
-        { path: '/v1/shops', count: 2500 },
-        { path: '/v1/items', count: 1500 },
-        { path: '/v1/players', count: 1000 },
-      ],
     };
 
     it('should return usage statistics', async () => {
@@ -173,6 +162,13 @@ describe('ApiKeyResource', () => {
       const result = await apiKey.getUsage();
 
       expect(result).toEqual(mockUsage);
+      expect(Object.keys(result).sort()).toEqual([
+        'blockedRequests',
+        'last24h',
+        'last30d',
+        'last7d',
+        'totalRequests',
+      ]);
       expect(global.fetch).toHaveBeenCalledWith(
         'https://api.krawlet.cc/v1/apikey/usage',
         expect.any(Object),
@@ -185,32 +181,20 @@ describe('ApiKeyResource', () => {
       count: 3,
       logs: [
         {
-          requestId: 'req-001',
           timestamp: '2026-01-20T12:00:00Z',
-          method: 'GET',
-          path: '/v1/shops',
-          responseStatus: 200,
-          responseTimeMs: 45,
+          tier: 'premium',
           wasBlocked: false,
           blockReason: null,
         },
         {
-          requestId: 'req-002',
           timestamp: '2026-01-20T11:55:00Z',
-          method: 'GET',
-          path: '/v1/items',
-          responseStatus: 200,
-          responseTimeMs: 120,
+          tier: 'premium',
           wasBlocked: false,
           blockReason: null,
         },
         {
-          requestId: 'req-003',
           timestamp: '2026-01-20T11:50:00Z',
-          method: 'GET',
-          path: '/v1/players',
-          responseStatus: 429,
-          responseTimeMs: null,
+          tier: 'premium',
           wasBlocked: true,
           blockReason: 'RATE_LIMIT_EXCEEDED',
         },
@@ -238,6 +222,12 @@ describe('ApiKeyResource', () => {
       const result = await apiKey.getLogs();
 
       expect(result).toEqual(mockLogs);
+      for (const log of result.logs) {
+        expect(log).toHaveProperty('timestamp');
+        expect(log).toHaveProperty('tier');
+        expect(log).toHaveProperty('wasBlocked');
+        expect(log).toHaveProperty('blockReason');
+      }
       expect(global.fetch).toHaveBeenCalledWith(
         'https://api.krawlet.cc/v1/apikey/logs',
         expect.any(Object),

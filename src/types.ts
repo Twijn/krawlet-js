@@ -390,10 +390,6 @@ export interface ApiKeyUsage {
   last30d: number;
   /** Number of blocked requests */
   blockedRequests: number;
-  /** Average response time in milliseconds */
-  avgResponseTimeMs: number | null;
-  /** Most frequently accessed endpoints */
-  topEndpoints: Array<{ path: string; count: number }>;
 }
 
 /**
@@ -430,18 +426,10 @@ export interface ApiKeyInfo {
  * Request log entry
  */
 export interface RequestLog {
-  /** Unique request identifier */
-  requestId: string;
   /** ISO 8601 datetime */
   timestamp: string;
-  /** HTTP method */
-  method: string;
-  /** Request path */
-  path: string;
-  /** Response status code */
-  responseStatus: number | null;
-  /** Response time in milliseconds */
-  responseTimeMs: number | null;
+  /** API key tier at request time */
+  tier: ApiKeyTier;
   /** Whether the request was blocked */
   wasBlocked: boolean;
   /** Reason for blocking (if blocked) */
@@ -454,7 +442,12 @@ export interface RequestLog {
 export interface RequestLogsResponse {
   /** Number of logs returned */
   count: number;
-  /** Array of request logs */
+  /**
+   * Request logs array.
+   *
+   * @remarks
+   * Logs are retention-limited by server configuration, with a minimum retention of 7 days.
+   */
   logs: RequestLog[];
 }
 
